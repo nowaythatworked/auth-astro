@@ -1,0 +1,41 @@
+{
+  "name": "auth-astro",
+  "version": "1.0.0",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    },
+    "./client": {
+      "types": "./src/client.ts",
+      "import": "./src/client.ts"
+    },
+    "./server": {
+      "types": "./src/server.ts",
+      "import": "./src/server.ts"
+    },
+    "./components": {
+      "types": "./src/components.ts",
+      "import": "./src/components.ts"
+    }
+  },
+  "license": "MIT",
+  "repository": "https://github.com/nowaythatworked/auth-astro.git",
+  "author": "nowaythatworked <jan.czekala99@web.de>",
+  "contributors": [
+    "Otterlord <otterlord.dev@gmail.com>",
+    "tajkirkpatrick"
+  ],
+  "devDependencies": {
+    "@types/cookie": "^0.5.1",
+    "@types/node": "^18.11.18",
+    "astro": "^1.9.2",
+    "next-auth": "^4.18.8",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "@auth/core": "^0.2.5",
+    "set-cookie-parser": "^2.5.1"
+  }
+}

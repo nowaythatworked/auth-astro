@@ -27,10 +27,13 @@
     "Otterlord <otterlord.dev@gmail.com>",
     "tajkirkpatrick"
   ],
+  "peerDependencies": {
+    "astro": "^2.0.0"
+  },
   "devDependencies": {
     "@types/cookie": "^0.5.1",
     "@types/node": "^18.11.18",
-    "astro": "^1.9.2",
+    "astro": "^2.0.0",
     "next-auth": "^4.18.8",
     "typescript": "^4.9.4"
   },

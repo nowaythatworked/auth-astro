@@ -8,9 +8,7 @@ It wraps the core Auth.js library for Astro, exposing helper methods and compone
 
 Install the core Auth.js package as well as the auth-astro wrapper.
 
-:::info
-The auth-astro wrapper will not work independently, it relies on @auth/core as a dependency.
-:::
+**info:** The auth-astro wrapper will not work independently, it relies on @auth/core as a dependency.
 
 ```bash
 npm install auth-astro@latest @auth/core@latest
@@ -30,9 +28,8 @@ Enabling server-side rendering within an Astro project requires a [deployment `a
 
 These settings can be configured within the `astro.config.mjs` file, located in the root of your project directory.
 
-:::info
-The example below use the [Node `adapter`](https://docs.astro.build/en/guides/integrations-guide/node/#overview)
-:::
+**info** The example below use the [Node `adapter`](https://docs.astro.build/en/guides/integrations-guide/node/#overview)
+
 ```js title="astro.config.mjs"
 import { defineConfig } from 'astro/config';
 import node from '@astrojs/node';

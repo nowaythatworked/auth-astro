@@ -20,6 +20,9 @@
       "import": "./src/components.ts"
     }
   },
+  "engines": {
+    "node": ">=17.4"
+  },
   "license": "MIT",
   "repository": "https://github.com/nowaythatworked/auth-astro.git",
   "author": "nowaythatworked <jan.czekala99@web.de>",

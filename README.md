@@ -120,7 +120,7 @@ The `signIn` and `signOut` methods can be imported dynamically in an inline scri
   <button id="logout">Logout</button>
 
   <script>
-    let { signIn, signOut } = await import("auth-astro/client")
+    const { signIn, signOut } = await import("auth-astro/client")
     document.querySelector("#login").onclick = () => signIn("github")
     document.querySelector("#logout").onclick = () => signOut()
   </script>

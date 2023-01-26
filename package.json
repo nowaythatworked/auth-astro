@@ -43,5 +43,6 @@
   "dependencies": {
     "@auth/core": "^0.2.5",
     "set-cookie-parser": "^2.5.1"
-  }
+  },
+  "keywords": ["auth", "astro", "authentication", "integration", "@auth", "authjs", "jwt", "oauth"]
 }

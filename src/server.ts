@@ -1,3 +1,29 @@
+
+/**
+ * > **caution**
+ * > `@auth/astro` is currently experimental. Be aware of breaking changes between versions.
+ * 
+ *
+ * Astro Auth is the official Astro integration for Auth.js.
+ * It provides a simple way to add authentication to your Astro site in a few lines of code.
+ *
+ * ## Installation
+ *
+ * `@auth/astro` requires building your site in `server` mode with a platform adaper like `@astrojs/node`.
+ * ```js
+ * // astro.config.mjs
+ * export default defineConfig({
+ *   output: "server",
+ *   adapter: node({
+ *     mode: 'standalone'
+ *   })
+ * });
+ * ```
+ *
+ * ```bash npm2yarn2pnpm
+ * npm install @auth/core @auth/sveltekit
+ * ```
+ */
 import { Auth } from "@auth/core"
 import type { AuthConfig, AuthAction, Session } from "@auth/core/types"
 import { type Cookie, parseString, splitCookiesString } from "set-cookie-parser"
@@ -77,6 +103,24 @@ function AstroAuthHandler(
   }
 }
 
+/**
+ * Creates a set of Astro endpoints for authentication.
+ * 
+ * @example
+ * ```ts
+ * export const { GET, POST } = AstroAuth({
+ *   providers: [
+ *     GitHub({
+ *       clientId: process.env.GITHUB_ID!,
+ *       clientSecret: process.env.GITHUB_SECRET!,
+ *     }),
+ *   ],
+ *   debug: false,
+ * })
+ * ```
+ * @param config The configuration for authentication providers and other options.
+ * @returns An object with `GET` and `POST` methods that can be exported in an Astro endpoint.
+ */
 export function AstroAuth(config: AstroAuthConfig) {
   const { prefix = "/api/auth", ...authConfig } = config
   // @ts-expect-error import.meta.env is used by Astro
@@ -100,6 +144,12 @@ export function AstroAuth(config: AstroAuthConfig) {
   }
 }
 
+/**
+ * Fetches the current session.
+ * @param req The request object.
+ * @param options The configuration for authentication providers and other options.
+ * @returns The current session, or `null` if there is no session.
+ */
 export async function getSession(
   req: Request,
   options: AstroAuthConfig

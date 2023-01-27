@@ -85,10 +85,10 @@
   dependencies:
     undici "^5.14.0"
 
-"@auth/core@^0.2.5":
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/@auth/core/-/core-0.2.5.tgz#41fecef93a9e44370e9a00c74751dca39910d1ec"
-  integrity sha512-e9jQOW6kSnxa0gfeR5neqLIDAUvZtyGTh3YpO2eN5F/5gBybE582M5e34rXlJKj+/tAgf+oYBJAY5CUxGTY9tw==
+"@auth/core@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@auth/core/-/core-0.3.0.tgz#8fcc0357dbc4da3d069f42e1ee4ad9728c33f7e5"
+  integrity sha512-4bmPzEiQKSXD825Jrcgj7igSFghBTpkSQ6U/jnYABJRQGhwnWJ/q9FHxEo6SGZWvYvpjOrvJOWhrP4Xng4CGUQ==
   dependencies:
     "@panva/hkdf" "^1.0.2"
     cookie "0.5.0"

@@ -1,7 +1,7 @@
 {
   "name": "auth-astro",
-  "version": "1.0.3",
-  "main": "./src/index.ts",
+  "version": "1.0.4",
+  "main": "./index.ts",
   "engines": {
     "node": ">=17.4"
   },

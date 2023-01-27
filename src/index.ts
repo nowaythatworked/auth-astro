@@ -20,7 +20,7 @@
  * ```
  *
  * ```bash npm2yarn2pnpm
- * npm install @auth/core @auth/sveltekit
+ * npm install @auth/core @auth/astro
  * ```
  */
 import { Auth } from "@auth/core"

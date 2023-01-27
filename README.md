@@ -50,16 +50,14 @@ Resources:
 
 Generate an auth secret by running `openssl rand -hex 32` in a local terminal or by visiting [generate-secret.vercel.app](https://generate-secret.vercel.app/32), copy the string, then set it as the `AUTH_SECRET` environment variable describe below.
 
-#### Deploying to Vercel?
-`AUTH_TRUST_HOST` can be set to false.
-
-#### Deploying to another provider not named Vercel?
-Set the `AUTH_TRUST_HOST` environment variable to `true` for hosting providers like Cloudflare Pages or Netlify.
-
+Next set the `AUTH_TRUST_HOST` environment variable to `true` for hosting providers like Cloudflare Pages or Netlify.
 ```sh
 AUTH_SECRET=<auth-secret>
 AUTH_TRUST_HOST=true
 ```
+
+#### Deploying to Vercel?
+Setting `AUTH_TRUST_HOST` is not needed as we also check for an active Vercel environment.
 
 ### Create an AstroAuth Endpoint
 

@@ -41,13 +41,15 @@
     "set-cookie-parser": "^2.5.1"
   },
   "keywords": [
-    "auth",
     "astro",
+    "auth",
     "authentication",
     "integration",
     "@auth",
+    "@auth/core",
     "authjs",
     "jwt",
-    "oauth"
+    "oauth",
+    "astro-auth"
   ]
 }

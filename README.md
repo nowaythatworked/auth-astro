@@ -75,12 +75,14 @@ GITHUB_ID=<github-oauth-clientID>
 GITHUB_SECRET=<github-oauth-clientSecret>
 ```
 
+**warning** @auth/core currently has a bug, which leads to a TS error when defining providers, this error can be ignored. More info [here](https://github.com/nextauthjs/next-auth/issues/6174).
 ```ts title="src/pages/api/auth/[...astroauth].ts"
 import { AstroAuth, type AstroAuthConfig } from "auth-astro"
 import GitHub from "@auth/core/providers/github"
 
 export const authOpts: AstroAuthConfig = {
   providers: [
+    //@ts-expect-error issue https://github.com/nextauthjs/next-auth/issues/6174
     GitHub({
       clientId: import.meta.env.GITHUB_ID,
       clientSecret: import.meta.env.GITHUB_SECRET,
@@ -125,9 +127,9 @@ The `signIn` and `signOut` methods can be imported dynamically in an inline scri
 </body>
 </html>
 ```
-### With @auth/astro's Components
+### With auth-astro's Components
 
-Alternatively, you can use the `SignIn` and `SignOut` button components provided by `@auth/astro/components` importing them into your Astro [component's script](https://docs.astro.build/en/core-concepts/astro-components/#the-component-script) 
+Alternatively, you can use the `SignIn` and `SignOut` button components provided by `auth-astro/components` importing them into your Astro [component's script](https://docs.astro.build/en/core-concepts/astro-components/#the-component-script) 
 
 ```jsx
 ---

@@ -16,7 +16,7 @@ npm install auth-astro@latest @auth/core@latest
 
 ## Usage
 
-Check out the [full example](https://github.com/TheOtterlord/astro-auth-example) of how to use auth-astro, or follow the steps below to get started.
+Check out the [full example](https://github.com/TheOtterlord/astro-auth-example) of how to use auth-astro & the accompanying [tutorial](http://blog.otterlord.dev/post/authjs-astro), or follow the steps below to get started.
 
 ### Requirements
 - Node version `>= 17.4`

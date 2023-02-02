@@ -22,6 +22,12 @@ Check out the [full example](https://github.com/TheOtterlord/astro-auth-example)
 - Node version `>= 17.4`
 - Astro config set to output mode `server`
 
+> **Note:** If you're using Node v18 or lower, you'll need to change root imports to use the `auth-astro/node` path instead of `auth-astro`. This version polyfills the webcrypto API for Node v18 to v17.4.0.
+> ```diff
+> - import { AstroAuth, type AstroAuthConfig } from "auth-astro"
+> + import { AstroAuth, type AstroAuthConfig } from "auth-astro/node"
+> ```
+
 ### Enable SSR in Your AstroJS Project
 
 Initialize a new Astro project and enable server-side rendering.

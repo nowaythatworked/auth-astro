@@ -2,6 +2,7 @@ import { AstroAuthConfig } from "."
 
 export interface AstroAuthIntegrationConfig {
     edge?: boolean,
+    injectEndpoints?: boolean,
     authOptions: AstroAuthConfig
 }
 

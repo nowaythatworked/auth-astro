@@ -13,15 +13,17 @@
     "tajkirkpatrick"
   ],
   "peerDependencies": {
-    "astro": "^2.0.0",
-    "@auth/core": "^0.3.0"
+    "@auth/core": "^0.3.0",
+    "astro": "^2.0.0"
   },
   "devDependencies": {
     "@types/cookie": "^0.5.1",
     "@types/node": "^18.11.18",
-    "astro": "^2.0.2",
+    "@types/set-cookie-parser": "^2.4.2",
+    "astro": "^2.0.6",
     "next-auth": "^4.18.8",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.4",
+    "@auth/core": "^0.3.0"
   },
   "dependencies": {
     "set-cookie-parser": "^2.5.1"

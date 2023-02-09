@@ -31,22 +31,10 @@ import {
   splitCookiesString,
 } from "set-cookie-parser";
 import { serialize } from "cookie";
-import crypto from "node:crypto";
 import { getConfig } from "./config";
 
 const { edge, authOptions } = getConfig();
 
-// Prior to Node 19.0.0, we need the following polyfills
-// This gives us at the very least support for Node ^17.4.0
-// See: https://github.com/nextauthjs/next-auth/issues/6417#issuecomment-1384660656
-if (!edge) {
-  if (!globalThis.crypto) globalThis.crypto = crypto;
-  if (typeof globalThis.crypto.subtle === "undefined")
-    // @ts-expect-error
-    globalThis.crypto.subtle = crypto.webcrypto.subtle;
-  if (typeof globalThis.crypto.randomUUID === "undefined")
-    globalThis.crypto.randomUUID = crypto.randomUUID;
-}
 export interface AstroAuthConfig extends AuthConfig {
   /**
    * Defines the base path for the auth routes.
@@ -130,7 +118,6 @@ function AstroAuthHandler(prefix: string) {
  */
 export function AstroAuth() {
   const { prefix = "/api/auth", ...authConfig } = authOptions;
-  // @ts-expect-error import.meta.env is used by Astro
   const { AUTH_SECRET, AUTH_TRUST_HOST, VERCEL, NODE_ENV } = import.meta.env;
 
   authConfig.secret ??= AUTH_SECRET;
@@ -157,7 +144,6 @@ export function AstroAuth() {
  * @returns The current session, or `null` if there is no session.
  */
 export async function getSession(req: Request): Promise<Session | null> {
-  // @ts-expect-error import.meta.env is used by Astro
   authOptions.secret ??= import.meta.env.AUTH_SECRET;
   authOptions.trustHost ??= true;
 

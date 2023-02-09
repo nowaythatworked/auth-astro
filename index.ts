@@ -31,9 +31,9 @@ import {
   splitCookiesString,
 } from "set-cookie-parser";
 import { serialize } from "cookie";
-import { getConfig } from "./config";
+import authConfig  from "auth:config"
 
-const { edge, authOptions } = getConfig();
+const authOptions = authConfig as AstroAuthConfig
 
 export interface AstroAuthConfig extends AuthConfig {
   /**
@@ -41,6 +41,16 @@ export interface AstroAuthConfig extends AuthConfig {
    * @default '/api/auth'
    */
   prefix?: string;
+  /**
+   * Should be set to true if you´re running your project on egde-functions
+   * @default false
+   */
+  edge?: boolean
+  /**
+   * Defineds wether or not you want the integration to handle the API routes
+   * @default true
+   */
+  injectEndpoints?: boolean
 }
 
 const actions: AuthAction[] = [

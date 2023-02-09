@@ -1,28 +1,36 @@
 import type { AstroIntegration } from "astro";
-import { type AstroAuthIntegrationConfig, setConfig } from "./config";
 import { dirname } from "path";
+import type { PluginOption } from 'vite'
+import { AstroAuthConfig } from ".";
 
-export default (config: AstroAuthIntegrationConfig): AstroIntegration => ({
+export default (config: AstroAuthConfig): AstroIntegration => ({
   name: "astro-auth",
   hooks: {
     "astro:config:setup": ({
       config: astroConfig,
       injectRoute,
       injectScript,
+      updateConfig
     }) => {
       if (astroConfig.output === "static")
         throw new Error(
           'auth-astro requires server-side rendering. Please set output to "server" & install an adapter. See https://docs.astro.build/en/guides/deploy/#adding-an-adapter-for-ssr'
         );
 
+      updateConfig({
+        vite: {
+          plugins: [virtualModulePlugin(config)]
+        }
+      })
+
       config.edge ??= false;
-      config.authOptions.prefix ??= "/api/auth";
-      setConfig(config);
+      config.prefix ??= "/api/auth";
+      
 
       if (config.injectEndpoints !== false) {
         const currentDir = dirname(import.meta.url);
         injectRoute({
-          pattern: config.authOptions.prefix + "/[...auth]",
+          pattern: config.prefix + "/[...auth]",
           entryPoint: currentDir + "/api/[...auth].ts",
         });
       }
@@ -40,3 +48,22 @@ if (typeof globalThis.crypto.randomUUID === "undefined") globalThis.crypto.rando
     },
   },
 });
+
+const virtualModulePlugin = (config: AstroAuthConfig): PluginOption => {
+  const virtualModuleId = 'auth:config'
+  const resolvedId = "\0" + virtualModuleId
+
+  return {
+      name: 'auth-astro-config',
+      resolveId: (id) => {
+          if (id === virtualModuleId) {
+              return resolvedId
+          }
+      },
+      load: (id) => {
+          if (id === resolvedId) {
+              return `export default ${JSON.stringify(config)}`
+          }
+      }
+  }
+}

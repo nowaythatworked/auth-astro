@@ -1,0 +1,9 @@
+---
+import { getSession } from '../server'
+
+let session = await getSession(Astro.request)
+---
+
+<div>
+  <Fragment set:html={Astro.slots.render('default', [session])} />
+</div>

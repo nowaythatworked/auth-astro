@@ -82,7 +82,7 @@
    return parseString(splitCookie?.[0] ?? ""); // just return the first cookie if no session token is found
  };
  
- function AstroAuthHandler(prefix: string) {
+ function AstroAuthHandler(prefix: string, options = authOptions) {
    return async ({ request }: { request: Request }) => {
      const url = new URL(request.url);
      const action = url.pathname
@@ -92,7 +92,7 @@
      if (!actions.includes(action) || !url.pathname.startsWith(prefix + "/"))
        return;
  
-     const res = await Auth(request, authOptions);
+     const res = await Auth(request, options);
      if (["callback", "signin", "signout"].includes(action)) {
        const parsedCookie = getSetCookieCallback(
          res.clone().headers.get("Set-Cookie")
@@ -126,8 +126,8 @@
   * @param config The configuration for authentication providers and other options.
   * @returns An object with `GET` and `POST` methods that can be exported in an Astro endpoint.
   */
- export function AstroAuth() {
-   const { prefix = "/api/auth", ...authConfig } = authOptions;
+ export function AstroAuth(options = authOptions) {
+   const { prefix = "/api/auth", ...authConfig } = options;
    const { AUTH_SECRET, AUTH_TRUST_HOST, VERCEL, NODE_ENV } = import.meta.env;
  
    authConfig.secret ??= AUTH_SECRET;
@@ -137,7 +137,7 @@
      NODE_ENV !== "production"
    );
  
-   const handler = AstroAuthHandler(prefix);
+   const handler = AstroAuthHandler(prefix, options);
    return {
      async get(event: any) {
        return await handler(event);
@@ -153,14 +153,14 @@
   * @param req The request object.
   * @returns The current session, or `null` if there is no session.
   */
- export async function getSession(req: Request): Promise<Session | null> {
-   authOptions.secret ??= import.meta.env.AUTH_SECRET;
-   authOptions.trustHost ??= true;
+ export async function getSession(req: Request, options = authOptions): Promise<Session | null> {
+   options.secret ??= import.meta.env.AUTH_SECRET;
+   options.trustHost ??= true;
  
-   const url = new URL(`${authOptions.prefix}/session`, req.url);
+   const url = new URL(`${options.prefix}/session`, req.url);
    const response = await Auth(
      new Request(url, { headers: req.headers }),
-     authOptions
+     options
    );
  
    const { status = 200 } = response;

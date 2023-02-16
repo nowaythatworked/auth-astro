@@ -1,7 +1,7 @@
 import type { AstroIntegration } from "astro";
 import { dirname, join } from "path";
 import type { PluginOption } from 'vite'
-import { AstroAuthConfig } from "..";
+import type { AstroAuthConfig } from "../server";
 
 export default (config: AstroAuthConfig): AstroIntegration => ({
   name: "astro-auth",
@@ -23,9 +23,7 @@ export default (config: AstroAuthConfig): AstroIntegration => ({
         }
       })
 
-      config.edge ??= false;
-      config.prefix ??= "/api/auth";
-      
+      config.prefix ??= "/api/auth";      
 
       if (config.injectEndpoints !== false) {
         const currentDir = dirname(import.meta.url);

@@ -1,4 +1,4 @@
 declare module "auth:config" {
-  const config: import('./src/server').AstroAuthConfig;
+  const config: import('./server').AstroAuthConfig;
   export default config;
 }

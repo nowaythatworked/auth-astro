@@ -33,7 +33,9 @@ export default (config: AstroAuthConfig): AstroIntegration => ({
         });
       }
 
-      if (globalThis.process && process.versions.node < "19.0.0") {
+      const edge = ['@astrojs/vercel/edge', '@astrojs/cloudflare'].includes(astroConfig.adapter.name)
+
+      if (!edge && globalThis.process && process.versions.node < "19.0.0") {
         injectScript(
           "page-ssr",
           `import crypto from "node:crypto";

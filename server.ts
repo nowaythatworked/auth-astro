@@ -24,25 +24,10 @@
  * ```
  */
 import { Auth } from '@auth/core'
-import type { AuthConfig, AuthAction, Session } from '@auth/core/types'
+import type { AuthAction, Session } from '@auth/core/types'
 import { type Cookie, parseString, splitCookiesString } from 'set-cookie-parser'
 import { serialize } from 'cookie'
 import authConfig from 'auth:config'
-
-const authOptions = authConfig as AstroAuthConfig
-
-export interface AstroAuthConfig extends AuthConfig {
-	/**
-	 * Defines the base path for the auth routes.
-	 * @default '/api/auth'
-	 */
-	prefix?: string
-	/**
-	 * Defineds wether or not you want the integration to handle the API routes
-	 * @default true
-	 */
-	injectEndpoints?: boolean
-}
 
 const actions: AuthAction[] = [
 	'providers',
@@ -73,7 +58,7 @@ const getSetCookieCallback = (cook?: string | null): Cookie | undefined => {
 	return parseString(splitCookie?.[0] ?? '') // just return the first cookie if no session token is found
 }
 
-function AstroAuthHandler(prefix: string, options = authOptions) {
+function AstroAuthHandler(prefix: string, options = authConfig) {
 	return async ({ request }: { request: Request }) => {
 		const url = new URL(request.url)
 		const action = url.pathname
@@ -117,7 +102,7 @@ function AstroAuthHandler(prefix: string, options = authOptions) {
  * @param config The configuration for authentication providers and other options.
  * @returns An object with `GET` and `POST` methods that can be exported in an Astro endpoint.
  */
-export function AstroAuth(options = authOptions) {
+export function AstroAuth(options = authConfig) {
 	const { prefix = '/api/auth', ...authConfig } = options
 	const { AUTH_SECRET, AUTH_TRUST_HOST, VERCEL, NODE_ENV } = import.meta.env
 
@@ -146,7 +131,7 @@ export function AstroAuth(options = authOptions) {
  */
 export async function getSession(
 	req: Request,
-	options = authOptions
+	options = authConfig
 ): Promise<Session | null> {
 	options.secret ??= import.meta.env.AUTH_SECRET
 	options.trustHost ??= true

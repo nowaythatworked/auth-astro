@@ -1,7 +1,6 @@
 import type { AstroIntegration } from "astro";
 import { dirname, join } from "path";
-import type { PluginOption } from 'vite'
-import type { AstroAuthConfig } from "../server";
+import { type AstroAuthConfig, virtualConfigModule } from "./config";
 
 export default (config: AstroAuthConfig): AstroIntegration => ({
   name: "astro-auth",
@@ -19,11 +18,11 @@ export default (config: AstroAuthConfig): AstroIntegration => ({
 
       updateConfig({
         vite: {
-          plugins: [virtualModulePlugin(config)]
+          plugins: [virtualConfigModule(config)]
         }
       })
 
-      config.prefix ??= "/api/auth";      
+      config.prefix ??= "/api/auth";
 
       if (config.injectEndpoints !== false) {
         const currentDir = dirname(import.meta.url);
@@ -48,22 +47,3 @@ if (typeof globalThis.crypto.randomUUID === "undefined") globalThis.crypto.rando
     },
   },
 });
-
-const virtualModulePlugin = (config: AstroAuthConfig): PluginOption => {
-  const virtualModuleId = 'auth:config'
-  const resolvedId = "\0" + virtualModuleId
-
-  return {
-      name: 'auth-astro-config',
-      resolveId: (id) => {
-          if (id === virtualModuleId) {
-              return resolvedId
-          }
-      },
-      load: (id) => {
-          if (id === resolvedId) {
-              return `export default ${JSON.stringify(config)}`
-          }
-      }
-  }
-}

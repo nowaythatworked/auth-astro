@@ -1,13 +1,14 @@
 ---
-import { type AstroAuthConfig, getSession } from '../../server'
+import { getSession } from '../../server'
+import { type AstroAuthConfig } from '../config';
 
 interface Props {
-  authOpts?: AstroAuthConfig
+  authConfig?: AstroAuthConfig
 }
 
-const { authOpts } = Astro.props as Props
+const { authConfig } = Astro.props as Props
 
-let session = await getSession(Astro.request, authOpts)
+let session = await getSession(Astro.request, authConfig)
 ---
 
 <div>

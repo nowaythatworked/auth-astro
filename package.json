@@ -39,6 +39,7 @@
     "authjs",
     "jwt",
     "oauth",
-    "astro-auth"
+    "astro-auth",
+    "astro-integration"
   ]
 }

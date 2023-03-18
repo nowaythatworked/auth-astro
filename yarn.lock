@@ -509,10 +509,15 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@panva/hkdf@^1.0.1", "@panva/hkdf@^1.0.2":
+"@panva/hkdf@^1.0.1":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@panva/hkdf/-/hkdf-1.0.2.tgz#bab0f09d09de9fd83628220d496627681bc440d6"
   integrity sha512-MSAs9t3Go7GUkMhpKC44T58DJ5KGk2vBo+h1cqQeqlMfdGkxaVB78ZWpv9gYi/g2fa4sopag9gJsNvS8XGgWJA==
+
+"@panva/hkdf@^1.0.2":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@panva/hkdf/-/hkdf-1.0.4.tgz#4e02bb248402ff6c5c024e23a68438e2b0e69d67"
+  integrity sha512-003xWiCuvePbLaPHT+CRuaV4GlyCAVm6XYSbBZDHoWZGn1mNkVKFaDbGJjjxmEFvizUwlCoM6O18FCBMMky2zQ==
 
 "@pkgr/utils@^2.3.1":
   version "2.3.1"
@@ -607,6 +612,11 @@
   dependencies:
     "@types/unist" "*"
 
+"@types/node@*":
+  version "18.15.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.3.tgz#f0b991c32cfc6a4e7f3399d6cb4b8cf9a0315014"
+  integrity sha512-p6ua9zBxz5otCmbpb5D3U4B5Nanw6Pk3PPyX05xnxbB/fRv71N7CPmORg7uAD5P70T0xmx1pzAx/FUfa5X+3cw==
+
 "@types/node@^18.11.18":
   version "18.11.18"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.18.tgz#8dfb97f0da23c2293e554c5a50d61ef134d7697f"
@@ -621,6 +631,13 @@
   version "1.20.2"
   resolved "https://registry.yarnpkg.com/@types/resolve/-/resolve-1.20.2.tgz#97d26e00cd4a0423b4af620abecf3e6f442b7975"
   integrity sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==
+
+"@types/set-cookie-parser@^2.4.2":
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@types/set-cookie-parser/-/set-cookie-parser-2.4.2.tgz#b6a955219b54151bfebd4521170723df5e13caad"
+  integrity sha512-fBZgytwhYAUkj/jC/FAV4RQ5EerRup1YQsXQCh8rZfiHkc4UahC192oH0smGwsXol3cL3A5oETuAHeQHmhXM4w==
+  dependencies:
+    "@types/node" "*"
 
 "@types/unist@*", "@types/unist@^2.0.0":
   version "2.0.6"
@@ -1465,10 +1482,15 @@ isexe@^2.0.0:
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==
 
-jose@^4.10.0, jose@^4.11.1, jose@^4.9.3:
+jose@^4.10.0, jose@^4.9.3:
   version "4.11.2"
   resolved "https://registry.yarnpkg.com/jose/-/jose-4.11.2.tgz#d9699307c02e18ff56825843ba90e2fae9f09e23"
   integrity sha512-njj0VL2TsIxCtgzhO+9RRobBvws4oYyCM8TpvoUQwl/MbIM3NFJRR9+e6x0sS5xXaP1t6OCBkaBME98OV9zU5A==
+
+jose@^4.11.1:
+  version "4.13.1"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-4.13.1.tgz#449111bb5ab171db85c03f1bd2cb1647ca06db1c"
+  integrity sha512-MSJQC5vXco5Br38mzaQKiq9mwt7lwj2eXpgpRyQYNHYt2lq1PjkWa7DLXX0WVcQLE9HhMh3jPiufS7fhJf+CLQ==
 
 js-tokens@^4.0.0:
   version "4.0.0"
@@ -2075,9 +2097,9 @@ npm-run-path@^5.1.0:
     path-key "^4.0.0"
 
 oauth4webapi@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/oauth4webapi/-/oauth4webapi-2.0.6.tgz#12972375e21240723e8d39cfe7c18027744877df"
-  integrity sha512-smacvTzkfgWxXTTfjZeKeCwtiZ7/HIgM+PWcgTltAmEbfmJQRfl/nbWktA9tnzSjezvWNg9N96PJomuMi0zkxQ==
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/oauth4webapi/-/oauth4webapi-2.2.0.tgz#6a1c3151bdf75092b47308bb476d4b18e25d30f5"
+  integrity sha512-yHJIXtjeQil8BfBvu0PUu38a2DNPOPcEOhzNdg/HytfKPGQk1hTg5j94zZ3bon9YBIAhW5PSmFv+n6bqq0v0uQ==
 
 oauth@^0.9.15:
   version "0.9.15"

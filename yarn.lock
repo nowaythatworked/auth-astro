@@ -85,12 +85,12 @@
   dependencies:
     undici "^5.14.0"
 
-"@auth/core@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@auth/core/-/core-0.3.0.tgz#8fcc0357dbc4da3d069f42e1ee4ad9728c33f7e5"
-  integrity sha512-4bmPzEiQKSXD825Jrcgj7igSFghBTpkSQ6U/jnYABJRQGhwnWJ/q9FHxEo6SGZWvYvpjOrvJOWhrP4Xng4CGUQ==
+"@auth/core@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@auth/core/-/core-0.5.1.tgz#9b8257ebd9447ea28a8ca386bd0e9093486bc80a"
+  integrity sha512-t9z8F7dkuVceKWBmMy1fd2t6H+vfRju/YJ1lm+6RnJ7pNEvX5qMR874wg0+cYbWvyZazLi8fFK/FA6I3D5sSkA==
   dependencies:
-    "@panva/hkdf" "^1.0.2"
+    "@panva/hkdf" "^1.0.4"
     cookie "0.5.0"
     jose "^4.11.1"
     oauth4webapi "^2.0.6"
@@ -509,10 +509,15 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@panva/hkdf@^1.0.1", "@panva/hkdf@^1.0.2":
+"@panva/hkdf@^1.0.1":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@panva/hkdf/-/hkdf-1.0.2.tgz#bab0f09d09de9fd83628220d496627681bc440d6"
   integrity sha512-MSAs9t3Go7GUkMhpKC44T58DJ5KGk2vBo+h1cqQeqlMfdGkxaVB78ZWpv9gYi/g2fa4sopag9gJsNvS8XGgWJA==
+
+"@panva/hkdf@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@panva/hkdf/-/hkdf-1.0.4.tgz#4e02bb248402ff6c5c024e23a68438e2b0e69d67"
+  integrity sha512-003xWiCuvePbLaPHT+CRuaV4GlyCAVm6XYSbBZDHoWZGn1mNkVKFaDbGJjjxmEFvizUwlCoM6O18FCBMMky2zQ==
 
 "@pkgr/utils@^2.3.1":
   version "2.3.1"

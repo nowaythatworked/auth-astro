@@ -132,9 +132,8 @@ You can fetch the session in one of two ways. The `getSession` method can be use
 ```tsx title="src/pages/index.astro"
 ---
 import { getSession } from 'auth-astro/server';
-import authOpts from 'auth:config';
 
-const session = await getSession(Astro.request, authOpts)
+const session = await getSession(Astro.request)
 ---
 {session ? (
   <p>Welcome {session.user?.name}</p>

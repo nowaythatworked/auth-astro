@@ -9,7 +9,7 @@ Auth Astro is the easiest way to add Authentication to your Astro Project. It wr
 The easiest way to get started is adding this package using the astro cli. 
 
 ```bash
-yarn astro add auth-astro
+npm run astro add auth-astro
 ```
 This will install the package and required peer-dependencies and add the integration to your config.
 You can now jump to [configuration](#configuration)

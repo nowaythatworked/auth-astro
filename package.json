@@ -1,6 +1,6 @@
 {
   "name": "auth-astro",
-  "version": "1.0.6",
+  "version": "2.0.0",
   "main": "./index.ts",
   "types": "module.d.ts",
   "engines": {

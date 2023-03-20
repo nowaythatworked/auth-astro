@@ -1,50 +1,52 @@
 # Auth Astro
 
-Auth Astro is the Auth.js implementation for Astro by Astro´s community. 
+Auth Astro is the easiest way to add Authentication to your Astro Project. It wraps the core of [Auth.js](https://authjs.dev/) into an Astro integration which automatically adds the endpoints and handles everything else.
 
-It wraps the core Auth.js library for Astro, exposing helper methods and components to make it easy to add authentication to your app.
+(**disclaimer**: Please don´t confuse this package with [astro-auth](https://github.com/astro-community/astro-auth))
 
-## Installation
+# Installation
 
-Install the core Auth.js package as well as the auth-astro wrapper.
+The easiest way to get started is adding this package using the astro cli. 
 
-**info:** The auth-astro wrapper will not work independently, it relies on @auth/core as a dependency.
+```bash
+yarn astro add auth-astro
+```
+This will install the package and required peer-dependencies and add the integration to your config.
+You can now jump to [configuration](#configuration)
+
+Alternarviely you can install the required packagages on your own.
 
 ```bash
 npm install auth-astro@latest @auth/core@latest
 ```
 
-## Usage
+Next you need to [add the integration to your astro config](https://docs.astro.build/en/guides/integrations-guide/#using-integrations) by importing it and listing it in the integrations array.
 
-### Requirements
-- Node version `>= 17.4`
-- Astro config set to output mode `server`
+## Configuration
 
-### Enable SSR in Your AstroJS Project
+Your [auth configuartion](https://authjs.dev/getting-started/oauth-tutorial#creating-the-server-config) needs to be passed to the integration function call.
 
-Initialize a new Astro project and enable server-side rendering.
-
-Enabling server-side rendering within an Astro project requires a [deployment `adapter`](https://docs.astro.build/en/guides/deploy/) to be configured.
-
-These settings can be configured within the `astro.config.mjs` file, located in the root of your project directory.
-
-**info** The example below use the [Node `adapter`](https://docs.astro.build/en/guides/integrations-guide/node/#overview)
-
-```js title="astro.config.mjs"
+For example:
+```ts title="astro.config.ts"
 import { defineConfig } from 'astro/config';
 import node from '@astrojs/node';
+import auth from 'auth-astro'
 
 export default defineConfig({
   output: 'server',
   adapter: node({
-    mode: 'standalone | middleware'
+    mode: 'standalone'
   }),
-});
+  integrations: [auth({
+    providers: [
+      GitHub({
+        clientId: import.meta.env.GITHUB_ID,
+        clientSecret: import.meta.env.GITHUB_SECRET,
+      }),
+    ]
+  })]
+})
 ```
-
-Resources:
-- [Enabling SSR in Your Project](https://docs.astro.build/en/guides/server-side-rendering/#enabling-ssr-in-your-project)
-- [Adding an Adapter](https://docs.astro.build/en/guides/server-side-rendering/#adding-an-adapter)
 
 ### Setup Environment Variables
 
@@ -59,49 +61,25 @@ AUTH_TRUST_HOST=true
 #### Deploying to Vercel?
 Setting `AUTH_TRUST_HOST` is not needed as we also check for an active Vercel environment.
 
-### Create an AstroAuth Endpoint
+### Requirements
+- Node version `>= 17.4`
+- Astro config set to output mode `server`
+- [SSR](https://docs.astro.build/en/guides/server-side-rendering/) enabled in your Astro project
 
-No matter which provider(s) you use, you need to create one Astro [endpoint](https://docs.astro.build/en/core-concepts/endpoints/) that handles requests. 
+Resources:
+- [Enabling SSR in Your Project](https://docs.astro.build/en/guides/server-side-rendering/#enabling-ssr-in-your-project)
+- [Adding an Adapter](https://docs.astro.build/en/guides/server-side-rendering/#adding-an-adapter)
 
-Depending on the provider(s) you select, you will have to provide additional app credentials as environment variables within your `.env` file.
+# Usage
 
-*App Credentials should be set as environment variables, and imported using `import.meta.env`.*
+Your authentication endpoints now live under `[domain]/api/auth/[operation]`. You can change the prefix in the configuation.
 
-```ts title=".env"
-AUTH_SECRET=<auth-secret>
-AUTH_TRUST_HOST=<true | false>
-...
-GITHUB_ID=<github-oauth-clientID>
-GITHUB_SECRET=<github-oauth-clientSecret>
+## Accessing your configuration
+
+In case you need to access your auth configuartion, you can always import it by
+```ts
+import authConfig from 'auth:config'
 ```
-
-**warning** @auth/core currently has a bug, which leads to a TS error when defining providers, this error can be ignored. More info [here](https://github.com/nextauthjs/next-auth/issues/6174).
-```ts title="src/pages/api/auth/[...astroauth].ts"
-import { AstroAuth, type AstroAuthConfig } from "auth-astro"
-import GitHub from "@auth/core/providers/github"
-
-export const authOpts: AstroAuthConfig = {
-  providers: [
-    //@ts-expect-error issue https://github.com/nextauthjs/next-auth/issues/6174
-    GitHub({
-      clientId: import.meta.env.GITHUB_ID,
-      clientSecret: import.meta.env.GITHUB_SECRET,
-    }),
-  ]
-}
-
-export const { get, post } = AstroAuth(authOpts)
-```
-Some OAuth Providers request a callback URL be submitted alongside requesting a Client ID, and Client Secret. 
-The callback URL used by the [providers](https://authjs.dev/reference/core/modules/providers) must be set to the following, unless you override the `prefix` field in `authOpts`:
-```
-[origin]/api/auth/callback/[provider]
-
-// example
-// http://localhost:3000/api/auth/callback/github
-```
-
-
 
 ## Sign in & Sign out
 
@@ -153,8 +131,8 @@ You can fetch the session in one of two ways. The `getSession` method can be use
 
 ```tsx title="src/pages/index.astro"
 ---
-import { getSession } from 'auth-astro';
-import { authOpts } from './api/auth/[...astroauth]';
+import { getSession } from 'auth-astro/server';
+import authOpts from 'auth:config';
 
 const session = await getSession(Astro.request, authOpts)
 ---
@@ -172,7 +150,7 @@ Alternatively, you can use the `Auth` component to fetch the session using a ren
 ---
 import type { Session } from '@auth/core/types';
 import { Auth, Signin, Signout } from 'auth-astro/components';
-import { authOpts } from './api/auth/[...astroAuth]'
+import authOpts from 'auth:config';
 ---
 <Auth authOpts={authOpts}>
   {(session: Session) => 
@@ -189,9 +167,9 @@ import { authOpts } from './api/auth/[...astroAuth]'
 </Auth>
 ```
 
-## State of Project
+# State of Project
 
 We currently are waiting for the [PR](https://github.com/nextauthjs/next-auth/pull/6463) in the offical [next-auth](https://github.com/nextauthjs/next-auth/) repository to be merged. Once this happened this package will be deprecated. 
 
-## Contribution
+# Contribution
 Us waiting means on the PR to be merged means, we can still add new features to the PR, so, if you miss anything feel free to open a PR or issue in this repo and we will try to add it to the official package to come.

@@ -31,6 +31,7 @@ For example:
 import { defineConfig } from 'astro/config';
 import node from '@astrojs/node';
 import auth from 'auth-astro'
+import GitHub from '@auth/core/providers/github'
 
 export default defineConfig({
   output: 'server',
@@ -39,6 +40,7 @@ export default defineConfig({
   }),
   integrations: [auth({
     providers: [
+      //@ts-expect-error issue https://github.com/nextauthjs/next-auth/issues/6174
       GitHub({
         clientId: import.meta.env.GITHUB_ID,
         clientSecret: import.meta.env.GITHUB_SECRET,

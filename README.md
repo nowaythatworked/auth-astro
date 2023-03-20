@@ -48,6 +48,15 @@ export default defineConfig({
 })
 ```
 
+Some OAuth Providers request a callback URL be submitted alongside requesting a Client ID, and Client Secret. The callback URL used by the providers must be set to the following, unless you override the prefix field in the configuration:
+
+```
+[origin]/api/auth/callback/[provider]
+
+// example
+// http://localhost:3000/api/auth/callback/github
+```
+
 ### Setup Environment Variables
 
 Generate an auth secret by running `openssl rand -hex 32` in a local terminal or by visiting [generate-secret.vercel.app](https://generate-secret.vercel.app/32), copy the string, then set it as the `AUTH_SECRET` environment variable describe below.
@@ -72,7 +81,7 @@ Resources:
 
 # Usage
 
-Your authentication endpoints now live under `[domain]/api/auth/[operation]`. You can change the prefix in the configuation.
+Your authentication endpoints now live under `[origin]/api/auth/[operation]`. You can change the prefix in the configuation.
 
 ## Accessing your configuration
 

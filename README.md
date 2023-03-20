@@ -149,9 +149,8 @@ Alternatively, you can use the `Auth` component to fetch the session using a ren
 ---
 import type { Session } from '@auth/core/types';
 import { Auth, Signin, Signout } from 'auth-astro/components';
-import authOpts from 'auth:config';
 ---
-<Auth authOpts={authOpts}>
+<Auth>
   {(session: Session) => 
     {session ? 
       <Signin provider="github">Login</Signin>

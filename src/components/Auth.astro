@@ -1,0 +1,17 @@
+---
+import { getSession } from '../../server'
+import { type AstroAuthConfig } from '../config'
+import authDefaultConfig from 'auth:config'
+
+interface Props {
+	authConfig?: AstroAuthConfig
+}
+
+const { authConfig = authDefaultConfig } = Astro.props as Props
+
+let session = await getSession(Astro.request, authConfig)
+---
+
+<div>
+	<Fragment set:html={Astro.slots.render('default', [session])} />
+</div>

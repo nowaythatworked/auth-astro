@@ -50,7 +50,7 @@ const getSetCookieCallback = (cook?: string | null): Cookie | undefined => {
 		'next-auth.pkce.code_verifier',
 		'__Secure-next-auth.pkce.code_verifier',
 	]) {
-		const temp = splitCookie.find(e => e.startsWith(`${cookName}=`))
+		const temp = splitCookie.find((e) => e.startsWith(`${cookName}=`))
 		if (temp) {
 			return parseString(temp)
 		}
@@ -61,18 +61,13 @@ const getSetCookieCallback = (cook?: string | null): Cookie | undefined => {
 function AstroAuthHandler(prefix: string, options = authConfig) {
 	return async ({ request }: { request: Request }) => {
 		const url = new URL(request.url)
-		const action = url.pathname
-			.slice(prefix.length + 1)
-			.split('/')[0] as AuthAction
+		const action = url.pathname.slice(prefix.length + 1).split('/')[0] as AuthAction
 
-		if (!actions.includes(action) || !url.pathname.startsWith(prefix + '/'))
-			return
+		if (!actions.includes(action) || !url.pathname.startsWith(prefix + '/')) return
 
 		const res = await Auth(request, options)
 		if (['callback', 'signin', 'signout'].includes(action)) {
-			const parsedCookie = getSetCookieCallback(
-				res.clone().headers.get('Set-Cookie')
-			)
+			const parsedCookie = getSetCookieCallback(res.clone().headers.get('Set-Cookie'))
 			if (parsedCookie) {
 				res.headers.set(
 					'Set-Cookie',
@@ -103,17 +98,13 @@ function AstroAuthHandler(prefix: string, options = authConfig) {
  * @returns An object with `GET` and `POST` methods that can be exported in an Astro endpoint.
  */
 export function AstroAuth(options = authConfig) {
-  // @ts-ignore
-  const { AUTH_SECRET, AUTH_TRUST_HOST, VERCEL, NODE_ENV } = import.meta.env
+	// @ts-ignore
+	const { AUTH_SECRET, AUTH_TRUST_HOST, VERCEL, NODE_ENV } = import.meta.env
 
-  options.secret ??= AUTH_SECRET
-	options.trustHost ??= !!(
-		AUTH_TRUST_HOST ??
-		VERCEL ??
-		NODE_ENV !== 'production'
-	)
+	options.secret ??= AUTH_SECRET
+	options.trustHost ??= !!(AUTH_TRUST_HOST ?? VERCEL ?? NODE_ENV !== 'production')
 
-  const { prefix = '/api/auth', ...authOptions } = options
+	const { prefix = '/api/auth', ...authOptions } = options
 
 	const handler = AstroAuthHandler(prefix, authOptions)
 	return {
@@ -131,19 +122,13 @@ export function AstroAuth(options = authConfig) {
  * @param req The request object.
  * @returns The current session, or `null` if there is no session.
  */
-export async function getSession(
-	req: Request,
-	options = authConfig
-): Promise<Session | null> {
-  // @ts-ignore
+export async function getSession(req: Request, options = authConfig): Promise<Session | null> {
+	// @ts-ignore
 	options.secret ??= import.meta.env.AUTH_SECRET
 	options.trustHost ??= true
 
 	const url = new URL(`${options.prefix}/session`, req.url)
-	const response = await Auth(
-		new Request(url, { headers: req.headers }),
-		options
-	)
+	const response = await Auth(new Request(url, { headers: req.headers }), options)
 
 	const { status = 200 } = response
 

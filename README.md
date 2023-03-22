@@ -20,7 +20,7 @@ Alternarviely you can install the required packagages on your own.
 npm install auth-astro@latest @auth/core@latest
 ```
 
-> **Note**: If your using pnpm you must also install cookie: `pnpm i cookie`
+> **Note**: If you´re using pnpm you must also install cookie: `pnpm i cookie`
 
 Next you need to [add the integration to your astro config](https://docs.astro.build/en/guides/integrations-guide/#using-integrations) by importing it and listing it in the integrations array.
 

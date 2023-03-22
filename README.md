@@ -20,6 +20,8 @@ Alternarviely you can install the required packagages on your own.
 npm install auth-astro@latest @auth/core@latest
 ```
 
+> **Note**: If your using pnpm you must also install cookie: `pnpm i cookie`
+
 Next you need to [add the integration to your astro config](https://docs.astro.build/en/guides/integrations-guide/#using-integrations) by importing it and listing it in the integrations array.
 
 ## Configuration
@@ -29,9 +31,12 @@ Your [auth configuartion](https://authjs.dev/getting-started/oauth-tutorial#crea
 For example:
 ```ts title="astro.config.ts"
 import { defineConfig } from 'astro/config';
+import { loadEnv } from 'vite';
 import node from '@astrojs/node';
 import auth from 'auth-astro'
 import GitHub from '@auth/core/providers/github'
+
+const env = loadEnv('production', process.cwd(), '');
 
 export default defineConfig({
   output: 'server',
@@ -40,10 +45,9 @@ export default defineConfig({
   }),
   integrations: [auth({
     providers: [
-      //@ts-expect-error issue https://github.com/nextauthjs/next-auth/issues/6174
       GitHub({
-        clientId: import.meta.env.GITHUB_ID,
-        clientSecret: import.meta.env.GITHUB_SECRET,
+        clientId: env.GITHUB_CLIENT_ID,
+        clientSecret: env.GITHUB_CLIENT_SECRET,
       }),
     ]
   })]

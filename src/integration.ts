@@ -31,7 +31,7 @@ export default (config: AstroAuthConfig): AstroIntegration => ({
 				astroConfig.adapter.name
 			)
 
-			if (!edge && globalThis.process && process.versions.node < '19.0.0' && process.env.NODE_ENV === 'production') {
+			if (!edge && globalThis.process && process.versions.node < '19.0.0' || (process.env.NODE_ENV === 'development' && edge)) {
 				injectScript(
 					'page-ssr',
 					`import crypto from "node:crypto";

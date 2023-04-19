@@ -2,7 +2,7 @@ import type { AstroIntegration } from 'astro'
 import { dirname, join } from 'path'
 import { type AstroAuthConfig, virtualConfigModule } from './config'
 
-export default (config: AstroAuthConfig): AstroIntegration => ({
+export default (config: AstroAuthConfig = {}): AstroIntegration => ({
 	name: 'astro-auth',
 	hooks: {
 		'astro:config:setup': ({ config: astroConfig, injectRoute, injectScript, updateConfig }) => {
@@ -13,7 +13,7 @@ export default (config: AstroAuthConfig): AstroIntegration => ({
 
 			updateConfig({
 				vite: {
-					plugins: [virtualConfigModule(config)],
+					plugins: [virtualConfigModule(config.configFile)],
 				},
 			})
 

@@ -26,7 +26,7 @@ Next you need to [add the integration to your astro config](https://docs.astro.b
 
 ## Configuration
 
-Create your [auth configuartion](https://authjs.dev/getting-started/oauth-tutorial#creating-the-server-config) file in the root of your project.
+Create your [auth configuration](https://authjs.dev/getting-started/oauth-tutorial#creating-the-server-config) file in the root of your project.
 
 ```ts title="auth.config.ts"
 import GitHub from '@auth/core/providers/github'
@@ -74,11 +74,11 @@ Resources:
 
 # Usage
 
-Your authentication endpoints now live under `[origin]/api/auth/[operation]`. You can change the prefix in the configuation.
+Your authentication endpoints now live under `[origin]/api/auth/[operation]`. You can change the prefix in the configuration.
 
 ## Accessing your configuration
 
-In case you need to access your auth configuartion, you can always import it by
+In case you need to access your auth configuration, you can always import it by
 ```ts
 import authConfig from 'auth:config'
 ```

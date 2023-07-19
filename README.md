@@ -6,11 +6,12 @@ Auth Astro is the easiest way to add Authentication to your Astro Project. It wr
 
 # Installation
 
-The easiest way to get started is adding this package using the astro cli. 
+The easiest way to get started is adding this package using the astro cli.
 
 ```bash
 npm run astro add auth-astro
 ```
+
 This will install the package and required peer-dependencies and add the integration to your config.
 You can now jump to [configuration](#configuration)
 
@@ -30,15 +31,16 @@ Create your [auth configuration](https://authjs.dev/getting-started/oauth-tutori
 
 ```ts title="auth.config.ts"
 import GitHub from '@auth/core/providers/github'
+import { defineConfig } from 'astro-auth'
 
-export default {
-  providers: [
-    GitHub({
-      clientId: env.GITHUB_CLIENT_ID,
-      clientSecret: env.GITHUB_CLIENT_SECRET,
-    }),
-  ]
-}
+export default defineConfig({
+	providers: [
+		GitHub({
+			clientId: env.GITHUB_CLIENT_ID,
+			clientSecret: env.GITHUB_CLIENT_SECRET,
+		}),
+	],
+})
 ```
 
 Some OAuth Providers request a callback URL be submitted alongside requesting a Client ID, and Client Secret. The callback URL used by the providers must be set to the following, unless you override the prefix field in the configuration:
@@ -55,20 +57,24 @@ Some OAuth Providers request a callback URL be submitted alongside requesting a 
 Generate an auth secret by running `openssl rand -hex 32` in a local terminal or by visiting [generate-secret.vercel.app](https://generate-secret.vercel.app/32), copy the string, then set it as the `AUTH_SECRET` environment variable describe below.
 
 Next set the `AUTH_TRUST_HOST` environment variable to `true` for hosting providers like Cloudflare Pages or Netlify.
+
 ```sh
 AUTH_SECRET=<auth-secret>
 AUTH_TRUST_HOST=true
 ```
 
 #### Deploying to Vercel?
+
 Setting `AUTH_TRUST_HOST` is not needed as we also check for an active Vercel environment.
 
 ### Requirements
+
 - Node version `>= 17.4`
 - Astro config set to output mode `server`
 - [SSR](https://docs.astro.build/en/guides/server-side-rendering/) enabled in your Astro project
 
 Resources:
+
 - [Enabling SSR in Your Project](https://docs.astro.build/en/guides/server-side-rendering/#enabling-ssr-in-your-project)
 - [Adding an Adapter](https://docs.astro.build/en/guides/server-side-rendering/#adding-an-adapter)
 
@@ -79,6 +85,7 @@ Your authentication endpoints now live under `[origin]/api/auth/[operation]`. Yo
 ## Accessing your configuration
 
 In case you need to access your auth configuration, you can always import it by
+
 ```ts
 import authConfig from 'auth:config'
 ```
@@ -94,22 +101,24 @@ The `signIn` and `signOut` methods can be imported dynamically in an inline scri
 ```html
 ---
 ---
-<html>
-<body>
-  <button id="login">Login</button>
-  <button id="logout">Logout</button>
 
-  <script>
-    const { signIn, signOut } = await import("auth-astro/client")
-    document.querySelector("#login").onclick = () => signIn("github")
-    document.querySelector("#logout").onclick = () => signOut()
-  </script>
-</body>
+<html>
+	<body>
+		<button id="login">Login</button>
+		<button id="logout">Logout</button>
+
+		<script>
+			const { signIn, signOut } = await import("auth-astro/client")
+			document.querySelector("#login").onclick = () => signIn("github")
+			document.querySelector("#logout").onclick = () => signOut()
+		</script>
+	</body>
 </html>
 ```
+
 ### With auth-astro's Components
 
-Alternatively, you can use the `SignIn` and `SignOut` button components provided by `auth-astro/components` importing them into your Astro [component's script](https://docs.astro.build/en/core-concepts/astro-components/#the-component-script) 
+Alternatively, you can use the `SignIn` and `SignOut` button components provided by `auth-astro/components` importing them into your Astro [component's script](https://docs.astro.build/en/core-concepts/astro-components/#the-component-script)
 
 ```jsx
 ---
@@ -143,6 +152,7 @@ const session = await getSession(Astro.request)
   <p>Not logged in</p>
 )}
 ```
+
 ### Within the Auth component
 
 Alternatively, you can use the `Auth` component to fetch the session using a render prop.
@@ -153,8 +163,8 @@ import type { Session } from '@auth/core/types';
 import { Auth, Signin, Signout } from 'auth-astro/components';
 ---
 <Auth>
-  {(session: Session) => 
-    {session ? 
+  {(session: Session) =>
+    {session ?
       <Signin provider="github">Login</Signin>
     :
       <Signout>Logout</Signout>
@@ -169,7 +179,8 @@ import { Auth, Signin, Signout } from 'auth-astro/components';
 
 # State of Project
 
-We currently are waiting for the [PR](https://github.com/nextauthjs/next-auth/pull/6463) in the offical [next-auth](https://github.com/nextauthjs/next-auth/) repository to be merged. Once this happened this package will be deprecated. 
+We currently are waiting for the [PR](https://github.com/nextauthjs/next-auth/pull/6463) in the offical [next-auth](https://github.com/nextauthjs/next-auth/) repository to be merged. Once this happened this package will be deprecated.
 
 # Contribution
+
 Us waiting means on the PR to be merged means, we can still add new features to the PR, so, if you miss anything feel free to open a PR or issue in this repo and we will try to add it to the official package to come.

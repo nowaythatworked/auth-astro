@@ -18,7 +18,7 @@ You can now jump to [configuration](#configuration)
 Alternarviely you can install the required packagages on your own.
 
 ```bash
-npm install auth-astro@latest @auth/core@latest
+npm install auth-astro@latest @auth/core@^0.18.6
 ```
 
 > **Note**: If you´re using `pnpm` you must also install cookie: `pnpm i cookie`

@@ -45,10 +45,10 @@ const getSetCookieCallback = (cook?: string | null): Cookie | undefined => {
 	if (!cook) return
 	const splitCookie = splitCookiesString(cook)
 	for (const cookName of [
-		'__Secure-next-auth.session-token',
-		'next-auth.session-token',
-		'next-auth.pkce.code_verifier',
-		'__Secure-next-auth.pkce.code_verifier',
+		'__Secure-authjs.session-token',
+		'authjs.session-token',
+		'authjs.pkce.code_verifier',
+		'__Secure-authjs.pkce.code_verifier',
 	]) {
 		const temp = splitCookie.find((e) => e.startsWith(`${cookName}=`))
 		if (temp) {
@@ -108,10 +108,10 @@ export function AstroAuth(options = authConfig) {
 
 	const handler = AstroAuthHandler(prefix, authOptions)
 	return {
-		async get(event: any) {
+		async GET(event: any) {
 			return await handler(event)
 		},
-		async post(event: any) {
+		async POST(event: any) {
 			return await handler(event)
 		},
 	}
@@ -129,7 +129,6 @@ export async function getSession(req: Request, options = authConfig): Promise<Se
 
 	const url = new URL(`${options.prefix}/session`, req.url)
 	const response = await Auth(new Request(url, { headers: req.headers }), options)
-
 	const { status = 200 } = response
 
 	const data = await response.json()

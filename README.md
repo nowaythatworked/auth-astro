@@ -2,6 +2,7 @@
 
 Auth Astro is the easiest way to add Authentication to your Astro Project. It wraps the core of [Auth.js](https://authjs.dev/) into an Astro integration which automatically adds the endpoints and handles everything else.
 
+#### Now supporting Astro v4
 (**disclaimer**: Please don´t confuse this package with [astro-auth](https://github.com/astro-community/astro-auth))
 
 # Installation
@@ -30,15 +31,16 @@ Create your [auth configuration](https://authjs.dev/getting-started/oauth-tutori
 
 ```ts title="auth.config.ts"
 import GitHub from '@auth/core/providers/github'
+import { defineConfig } from 'astro-auth'
 
-export default {
-  providers: [
-    GitHub({
-      clientId: env.GITHUB_CLIENT_ID,
-      clientSecret: env.GITHUB_CLIENT_SECRET,
-    }),
-  ]
-}
+export default defineConfig({
+	providers: [
+		GitHub({
+			clientId: import.meta.env.GITHUB_CLIENT_ID,
+			clientSecret: import.meta.env.GITHUB_CLIENT_SECRET,
+		}),
+	],
+})
 ```
 
 Some OAuth Providers request a callback URL be submitted alongside requesting a Client ID, and Client Secret. The callback URL used by the providers must be set to the following, unless you override the prefix field in the configuration:

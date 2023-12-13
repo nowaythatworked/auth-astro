@@ -1,6 +1,7 @@
 import type { PluginOption } from 'vite'
+import type { AuthConfig } from '@auth/core/types'
 
-export const virtualConfigModule = (configFile: string = "./auth.config"): PluginOption => {
+export const virtualConfigModule = (configFile: string = './auth.config'): PluginOption => {
 	const virtualModuleId = 'auth:config'
 	const resolvedId = '\0' + virtualModuleId
 
@@ -30,8 +31,14 @@ export interface AstroAuthConfig {
 	 * @default true
 	 */
 	injectEndpoints?: boolean
-  /**
-   * Path to the config file
-   */
-  configFile?: string
+	/**
+	 * Path to the config file
+	 */
+	configFile?: string
+}
+
+export interface FullAuthConfig extends AstroAuthConfig, AuthConfig {}
+export const defineConfig = (config: FullAuthConfig) => {
+	config.prefix ??= '/api/auth'
+	return config
 }

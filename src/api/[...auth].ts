@@ -1,3 +1,3 @@
 import { AstroAuth } from '../../server'
 
-export const { get, post } = AstroAuth()
+export const { GET, POST } = AstroAuth()

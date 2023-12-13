@@ -5,7 +5,13 @@ import { type AstroAuthConfig, virtualConfigModule } from './config'
 export default (config: AstroAuthConfig = {}): AstroIntegration => ({
 	name: 'astro-auth',
 	hooks: {
-		'astro:config:setup': ({ config: astroConfig, injectRoute, injectScript, updateConfig }) => {
+		'astro:config:setup': ({
+			config: astroConfig,
+			injectRoute,
+			injectScript,
+			updateConfig,
+			logger,
+		}) => {
 			if (astroConfig.output === 'static')
 				throw new Error(
 					'auth-astro requires server-side rendering. Please set output to "server" & install an adapter. See https://docs.astro.build/en/guides/deploy/#adding-an-adapter-for-ssr'
@@ -14,6 +20,7 @@ export default (config: AstroAuthConfig = {}): AstroIntegration => ({
 			updateConfig({
 				vite: {
 					plugins: [virtualConfigModule(config.configFile)],
+					optimizeDeps: { exclude: ['auth:config'] },
 				},
 			})
 
@@ -23,15 +30,21 @@ export default (config: AstroAuthConfig = {}): AstroIntegration => ({
 				const currentDir = dirname(import.meta.url.replace('file://', ''))
 				injectRoute({
 					pattern: config.prefix + '/[...auth]',
-					entryPoint: join(currentDir + '/api/[...auth].ts'),
+					entrypoint: join(currentDir + '/api/[...auth].ts'),
 				})
 			}
 
+			if (!astroConfig.adapter) {
+				logger.error('No Adapter found, please make sure you proivde one in you Astro config')
+			}
 			const edge = ['@astrojs/vercel/edge', '@astrojs/cloudflare'].includes(
 				astroConfig.adapter.name
 			)
 
-			if (!edge && globalThis.process && process.versions.node < '19.0.0' || (process.env.NODE_ENV === 'development' && edge)) {
+			if (
+				(!edge && globalThis.process && process.versions.node < '19.0.0') ||
+				(process.env.NODE_ENV === 'development' && edge)
+			) {
 				injectScript(
 					'page-ssr',
 					`import crypto from "node:crypto";

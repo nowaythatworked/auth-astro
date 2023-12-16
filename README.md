@@ -31,7 +31,7 @@ Create your [auth configuration](https://authjs.dev/getting-started/oauth-tutori
 
 ```ts title="auth.config.ts"
 import GitHub from '@auth/core/providers/github'
-import { defineConfig } from 'astro-auth'
+import { defineConfig } from 'auth-astro'
 
 export default defineConfig({
 	providers: [

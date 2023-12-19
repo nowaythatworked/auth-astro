@@ -2,7 +2,7 @@
 
 Auth Astro is the easiest way to add Authentication to your Astro Project. It wraps the core of [Auth.js](https://authjs.dev/) into an Astro integration which automatically adds the endpoints and handles everything else.
 
-#### Now supporting Astro v4
+#### Now supporting up to Astro 4
 (**disclaimer**: Please don´t confuse this package with [astro-auth](https://github.com/astro-community/astro-auth))
 
 # Installation

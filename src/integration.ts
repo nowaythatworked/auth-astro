@@ -26,7 +26,7 @@ export default (config: AstroAuthConfig = {}): AstroIntegration => ({
 			config.prefix ??= '/api/auth'
 
 			if (config.injectEndpoints !== false) {
-				const entrypoint = 'auth-astro/auth-template'
+				const entrypoint = '@jman.dev/auth-astro/auth-template'
 				injectRoute({
 					pattern: config.prefix + '/[...auth]',
 					entrypoint: entrypoint,

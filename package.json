@@ -10,7 +10,8 @@
 	"exports": {
 		".": "./index.ts",
 		"./auth-template": "./src/api/[...auth].ts",
-		"./server": "./server.ts"
+		"./server": "./server.ts",
+		"./components/*": "./src/components/*"
 	},
 	"license": "MIT",
 	"repository": "https://github.com/nowaythatworked/auth-astro.git",

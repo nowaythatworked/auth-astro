@@ -1,7 +1,7 @@
 {
 	"name": "@jman.dev/auth-astro",
 	"description": "The easiest way to add authentication to your Astro project!",
-	"version": "4.1.0",
+	"version": "4.1.1",
 	"main": "./index.ts",
 	"types": "module.d.ts",
 	"engines": {

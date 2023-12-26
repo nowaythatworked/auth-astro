@@ -15,7 +15,7 @@ npm run astro add auth-astro
 This will install the package and required peer-dependencies and add the integration to your config.
 You can now jump to [configuration](#configuration)
 
-Alternarviely you can install the required packagages on your own.
+Alternatively you can install the required packagages on your own.
 
 ```bash
 npm install auth-astro@latest @auth/core@^0.18.6

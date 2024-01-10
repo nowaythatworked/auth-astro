@@ -1,5 +1,5 @@
 import type { AstroIntegration } from 'astro'
-import { dirname, join } from 'path'
+import { dirname, join } from 'node:path'
 import { type AstroAuthConfig, virtualConfigModule } from './config'
 
 export default (config: AstroAuthConfig = {}): AstroIntegration => ({

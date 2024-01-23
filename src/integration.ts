@@ -1,11 +1,10 @@
 import type { AstroIntegration } from 'astro'
-import { dirname, join } from 'path'
 import { type AstroAuthConfig, virtualConfigModule } from './config'
 
 export default (config: AstroAuthConfig = {}): AstroIntegration => ({
 	name: 'astro-auth',
 	hooks: {
-		'astro:config:setup': ({
+		'astro:config:setup': async ({
 			config: astroConfig,
 			injectRoute,
 			injectScript,
@@ -27,6 +26,7 @@ export default (config: AstroAuthConfig = {}): AstroIntegration => ({
 			config.prefix ??= '/api/auth'
 
 			if (config.injectEndpoints !== false) {
+				const { dirname, join } = await import('node:path')
 				const currentDir = dirname(import.meta.url.replace('file://', ''))
 				const entrypoint = join(currentDir + '/api/[...auth].ts')
 				injectRoute({

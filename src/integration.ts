@@ -37,7 +37,7 @@ export default (config: AstroAuthConfig = {}): AstroIntegration => ({
 			}
 
 			if (!astroConfig.adapter) {
-				logger.error('No Adapter found, please make sure you proivde one in you Astro config')
+				logger.error('No Adapter found, please make sure you provide one in your Astro config')
 			}
 			const edge = ['@astrojs/vercel/edge', '@astrojs/cloudflare'].includes(
 				astroConfig.adapter.name

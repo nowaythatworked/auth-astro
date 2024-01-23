@@ -1,11 +1,16 @@
 {
-	"name": "auth-astro",
+	"name": "@jman.dev/auth-astro",
 	"description": "The easiest way to add authentication to your Astro project!",
-	"version": "4.1.0",
+	"version": "4.1.5",
 	"main": "./index.ts",
 	"types": "module.d.ts",
 	"engines": {
 		"node": ">=17.4"
+	},
+	"exports": {
+		".": "./index.ts",
+		"./auth-template": "./src/api/[...auth].ts",
+		"./*": "./*.ts"
 	},
 	"license": "MIT",
 	"repository": "https://github.com/nowaythatworked/auth-astro.git",

@@ -25,8 +25,8 @@
  */
 import { Auth } from '@auth/core'
 import type { AuthAction, Session } from '@auth/core/types'
-import { type Cookie, parseString, splitCookiesString } from 'set-cookie-parser'
-import { serialize } from 'cookie'
+import type { APIContext } from 'astro'
+import { parseString } from 'set-cookie-parser'
 import authConfig from 'auth:config'
 
 const actions: AuthAction[] = [
@@ -40,26 +40,8 @@ const actions: AuthAction[] = [
 	'error',
 ]
 
-// solves the same issue that exists in @auth/solid-js
-const getSetCookieCallback = (cook?: string | null): Cookie | undefined => {
-	if (!cook) return
-	const splitCookie = splitCookiesString(cook)
-	for (const cookName of [
-		'__Secure-authjs.session-token',
-		'authjs.session-token',
-		'authjs.pkce.code_verifier',
-		'__Secure-authjs.pkce.code_verifier',
-	]) {
-		const temp = splitCookie.find((e) => e.startsWith(`${cookName}=`))
-		if (temp) {
-			return parseString(temp)
-		}
-	}
-	return parseString(splitCookie?.[0] ?? '') // just return the first cookie if no session token is found
-}
-
 function AstroAuthHandler(prefix: string, options = authConfig) {
-	return async ({ request }: { request: Request }) => {
+	return async ({ cookies, request }: APIContext) => {
 		const url = new URL(request.url)
 		const action = url.pathname.slice(prefix.length + 1).split('/')[0] as AuthAction
 
@@ -67,13 +49,13 @@ function AstroAuthHandler(prefix: string, options = authConfig) {
 
 		const res = await Auth(request, options)
 		if (['callback', 'signin', 'signout'].includes(action)) {
-			const parsedCookie = getSetCookieCallback(res.clone().headers.get('Set-Cookie'))
-			if (parsedCookie) {
-				res.headers.set(
-					'Set-Cookie',
-					serialize(parsedCookie.name, parsedCookie.value, parsedCookie as any)
-				)
-			}
+			// Properly handle multiple Set-Cookie headers (they can't be concatenated in one)
+			res.headers.getSetCookie().forEach((cookie) => {
+				const { name, value, ...options } = parseString(cookie)
+				// Astro's typings are more explicit than @types/set-cookie-parser for sameSite
+				cookies.set(name, value, options as Parameters<(typeof cookies)['set']>[2])
+			})
+			res.headers.delete('Set-Cookie')
 		}
 		return res
 	}
@@ -108,11 +90,11 @@ export function AstroAuth(options = authConfig) {
 
 	const handler = AstroAuthHandler(prefix, authOptions)
 	return {
-		async GET(event: any) {
-			return await handler(event)
+		async GET(context: APIContext) {
+			return await handler(context)
 		},
-		async POST(event: any) {
-			return await handler(event)
+		async POST(context: APIContext) {
+			return await handler(context)
 		},
 	}
 }

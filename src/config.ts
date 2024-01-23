@@ -37,7 +37,7 @@ export interface AstroAuthConfig {
 	configFile?: string
 }
 
-export interface FullAuthConfig extends AstroAuthConfig, AuthConfig {}
+export interface FullAuthConfig extends AstroAuthConfig, Omit<AuthConfig, 'raw'> {}
 export const defineConfig = (config: FullAuthConfig) => {
 	config.prefix ??= '/api/auth'
 	return config

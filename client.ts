@@ -1,18 +1,18 @@
+import type { BuiltInProviderType, RedirectableProviderType } from '@auth/core/providers'
 import type {
 	LiteralUnion,
-	SignInOptions,
 	SignInAuthorizationParams,
+	SignInOptions,
 	SignOutParams,
 } from 'next-auth/react'
-import type { BuiltInProviderType, RedirectableProviderType } from '@auth/core/providers'
 
 interface AstroSignInOptions extends SignInOptions {
-	/** The base path for authentication (default: /api/auth) */
+	/** The base path for authentication (default: /auth) */
 	prefix?: string
 }
 
 interface AstroSignOutParams extends SignOutParams {
-	/** The base path for authentication (default: /api/auth) */
+	/** The base path for authentication (default: /auth) */
 	prefix?: string
 }
 
@@ -31,7 +31,7 @@ export async function signIn<P extends RedirectableProviderType | undefined = un
 	authorizationParams?: SignInAuthorizationParams
 ) {
 	const { callbackUrl = window.location.href, redirect = true } = options ?? {}
-	const { prefix = '/api/auth', ...opts } = options ?? {}
+	const { prefix = '/auth', ...opts } = options ?? {}
 
 	// TODO: Support custom providers
 	const isCredentials = providerId === 'credentials'
@@ -82,7 +82,7 @@ export async function signIn<P extends RedirectableProviderType | undefined = un
  * [Documentation](https://authjs.dev/reference/utilities/#signout)
  */
 export async function signOut(options?: AstroSignOutParams) {
-	const { callbackUrl = window.location.href, prefix = '/api/auth' } = options ?? {}
+	const { callbackUrl = window.location.href, prefix = '/auth' } = options ?? {}
 	// TODO: Custom base path
 	const csrfTokenResponse = await fetch(`${prefix}/csrf`)
 	const { csrfToken } = await csrfTokenResponse.json()

@@ -1,5 +1,5 @@
-import type { PluginOption } from 'vite'
 import type { AuthConfig } from '@auth/core/types'
+import type { PluginOption } from 'vite'
 
 export const virtualConfigModule = (configFile: string = './auth.config'): PluginOption => {
 	const virtualModuleId = 'auth:config'
@@ -23,7 +23,7 @@ export const virtualConfigModule = (configFile: string = './auth.config'): Plugi
 export interface AstroAuthConfig {
 	/**
 	 * Defines the base path for the auth routes.
-	 * @default '/api/auth'
+	 * @default '/auth'
 	 */
 	prefix?: string
 	/**
@@ -39,6 +39,6 @@ export interface AstroAuthConfig {
 
 export interface FullAuthConfig extends AstroAuthConfig, Omit<AuthConfig, 'raw'> {}
 export const defineConfig = (config: FullAuthConfig) => {
-	config.prefix ??= '/api/auth'
+	config.prefix ??= '/auth'
 	return config
 }

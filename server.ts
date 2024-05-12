@@ -1,3 +1,6 @@
+import type { AuthAction, Session } from '@auth/core/types'
+
+import type { APIContext } from 'astro'
 /**
  * > **caution**
  * > `auth-astro` is currently experimental. Be aware of breaking changes between versions.
@@ -24,10 +27,8 @@
  * ```
  */
 import { Auth } from '@auth/core'
-import type { AuthAction, Session } from '@auth/core/types'
-import type { APIContext } from 'astro'
-import { parseString } from 'set-cookie-parser'
 import authConfig from 'auth:config'
+import { parseString } from 'set-cookie-parser'
 
 const actions: AuthAction[] = [
 	'providers',
@@ -86,7 +87,7 @@ export function AstroAuth(options = authConfig) {
 	options.secret ??= AUTH_SECRET
 	options.trustHost ??= !!(AUTH_TRUST_HOST ?? VERCEL ?? NODE_ENV !== 'production')
 
-	const { prefix = '/api/auth', ...authOptions } = options
+	const { prefix = '/auth', ...authOptions } = options
 
 	const handler = AstroAuthHandler(prefix, authOptions)
 	return {

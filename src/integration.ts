@@ -23,7 +23,7 @@ export default (config: AstroAuthConfig = {}): AstroIntegration => ({
 				},
 			})
 
-			config.prefix ??= '/api/auth'
+			config.prefix ??= '/auth'
 
 			if (config.injectEndpoints !== false) {
 				const { dirname, join } = await import('node:path')
@@ -32,7 +32,6 @@ export default (config: AstroAuthConfig = {}): AstroIntegration => ({
 				injectRoute({
 					pattern: config.prefix + '/[...auth]',
 					entrypoint: entrypoint,
-					entryPoint: entrypoint
 				})
 			}
 

@@ -1,10 +1,9 @@
+import type { APIContext, AstroGlobal } from 'astro'
 import type { AuthAction, Session } from '@auth/core/types'
 
-import type { APIContext } from 'astro'
 /**
  * > **caution**
  * > `auth-astro` is currently experimental. Be aware of breaking changes between versions.
- *
  *
  * Astro Auth is the unofficial Astro integration for Auth.js.
  * It provides a simple way to add authentication to your Astro site in a few lines of code.
@@ -46,7 +45,9 @@ function AstroAuthHandler(prefix: string, options = authConfig) {
 		const url = new URL(request.url)
 		const action = url.pathname.slice(prefix.length + 1).split('/')[0] as AuthAction
 
-		if (!actions.includes(action) || !url.pathname.startsWith(prefix + '/')) return
+		if (!actions.includes(action) || !url.pathname.startsWith(prefix + '/')) {
+			return
+		}
 
 		const res = await Auth(request, options)
 		if (['callback', 'signin', 'signout'].includes(action)) {
@@ -102,10 +103,15 @@ export function AstroAuth(options = authConfig) {
 
 /**
  * Fetches the current session.
- * @param req The request object.
+ * @param astro The request object.
  * @returns The current session, or `null` if there is no session.
  */
-export async function getSession(req: Request, options = authConfig): Promise<Session | null> {
+export async function getSession(
+	astro: AstroGlobal,
+	options = authConfig
+): Promise<Session | null> {
+	const req = astro.request
+
 	// @ts-ignore
 	options.secret ??= import.meta.env.AUTH_SECRET
 	options.trustHost ??= true
@@ -115,6 +121,12 @@ export async function getSession(req: Request, options = authConfig): Promise<Se
 	const { status = 200 } = response
 
 	const data = await response.json()
+
+	const setCookie = response.headers.getSetCookie()
+	if (setCookie) {
+		//@ts-ignore - this works lol
+		astro.response.headers.set('Set-Cookie', setCookie)
+	}
 
 	if (!data || !Object.keys(data).length) return null
 	if (status === 200) return data

@@ -152,14 +152,14 @@ Alternatively, you can use the `Auth` component to fetch the session using a ren
 ```tsx title="src/pages/index.astro"
 ---
 import type { Session } from '@auth/core/types';
-import { Auth, Signin, Signout } from 'auth-astro/components';
+import { Auth, SignIn, SignOut } from 'auth-astro/components';
 ---
 <Auth>
   {(session: Session) => 
     {session ? 
-      <Signin provider="github">Login</Signin>
+      <SignIn provider="github">Login</SignIn>
     :
-      <Signout>Logout</Signout>
+      <SignOut>Logout</SignOut>
     }
 
     <p>

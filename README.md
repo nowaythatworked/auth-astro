@@ -50,7 +50,7 @@ Some OAuth Providers request a callback URL be submitted alongside requesting a 
 [origin]/api/auth/callback/[provider]
 
 // example
-// http://localhost:3000/api/auth/callback/github
+// http://localhost:4321/api/auth/callback/github
 ```
 
 ### Setup Environment Variables

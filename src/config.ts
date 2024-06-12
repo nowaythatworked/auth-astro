@@ -40,5 +40,6 @@ export interface AstroAuthConfig {
 export interface FullAuthConfig extends AstroAuthConfig, Omit<AuthConfig, 'raw'> {}
 export const defineConfig = (config: FullAuthConfig) => {
 	config.prefix ??= '/api/auth'
+	config.basePath = config.prefix
 	return config
 }

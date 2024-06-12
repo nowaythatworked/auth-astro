@@ -1,9 +1,9 @@
 # Auth Astro
 
-Auth Astro is the easiest way to add Authentication to your Astro Project. It wraps the core of [Auth.js](https://authjs.dev/) into an Astro integration which automatically adds the endpoints and handles everything else.
+Auth Astro is the easiest way to add Authentication to your Astro Project. It wraps the core of [Auth.js](https://authjs.dev/) into an Astro integration, which automatically adds the endpoints and handles everything else.
 
 #### Now supporting up to Astro 4
-(**disclaimer**: Please don´t confuse this package with [astro-auth](https://github.com/astro-community/astro-auth))
+(**disclaimer**: Please don't confuse this package with [astro-auth](https://github.com/astro-community/astro-auth))
 
 # Installation
 
@@ -15,7 +15,7 @@ npm run astro add auth-astro
 This will install the package and required peer-dependencies and add the integration to your config.
 You can now jump to [configuration](#configuration)
 
-Alternatively you can install the required packages on your own.
+Alternatively, you can install the required packages on your own.
 
 ```bash
 npm install auth-astro@latest @auth/core@^0.18.6
@@ -23,7 +23,7 @@ npm install auth-astro@latest @auth/core@^0.18.6
 
 > **Note**: If you´re using `pnpm` you must also install cookie: `pnpm i cookie`
 
-Next you need to [add the integration to your astro config](https://docs.astro.build/en/guides/integrations-guide/#using-integrations) by importing it and listing it in the integrations array.
+Next, you need to [add the integration to your astro config](https://docs.astro.build/en/guides/integrations-guide/#using-integrations) by importing it and listing it in the integrations array.
 
 ## Configuration
 
@@ -57,14 +57,14 @@ Some OAuth Providers request a callback URL be submitted alongside requesting a 
 
 Generate an auth secret by running `openssl rand -hex 32` in a local terminal or by visiting [generate-secret.vercel.app](https://generate-secret.vercel.app/32), copy the string, then set it as the `AUTH_SECRET` environment variable describe below.
 
-Next set the `AUTH_TRUST_HOST` environment variable to `true` for hosting providers like Cloudflare Pages or Netlify.
+Next, set the `AUTH_TRUST_HOST` environment variable to `true` for hosting providers like Cloudflare Pages or Netlify.
 ```sh
 AUTH_SECRET=<auth-secret>
 AUTH_TRUST_HOST=true
 ```
 
 #### Deploying to Vercel?
-Setting `AUTH_TRUST_HOST` is not needed as we also check for an active Vercel environment.
+Setting `AUTH_TRUST_HOST` is not needed, as we also check for an active Vercel environment.
 
 ### Requirements
 - Node version `>= 17.4`
@@ -172,7 +172,7 @@ import { Auth, Signin, Signout } from 'auth-astro/components';
 
 # State of Project
 
-We currently are waiting for the [PR](https://github.com/nextauthjs/next-auth/pull/6463) in the offical [next-auth](https://github.com/nextauthjs/next-auth/) repository to be merged. Once this happened this package will be deprecated. 
+We currently are waiting for the [PR](https://github.com/nextauthjs/next-auth/pull/6463) in the official [next-auth](https://github.com/nextauthjs/next-auth/) repository to be merged. Once this has happened, this package will be deprecated. 
 
 # Contribution
-Us waiting means on the PR to be merged means, we can still add new features to the PR, so, if you miss anything feel free to open a PR or issue in this repo and we will try to add it to the official package to come.
+Waiting on the PR to be merged means, we can still add new features to the PR, so, if you miss anything feel free to open a PR or issue in this repo, and we will try to get it added to the official package.

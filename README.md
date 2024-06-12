@@ -30,6 +30,7 @@ Next you need to [add the integration to your astro config](https://docs.astro.b
 Create your [auth configuration](https://authjs.dev/getting-started/providers/oauth-tutorial) file in the root of your project.
 
 ```ts title="auth.config.ts"
+// auth.config.ts
 import GitHub from '@auth/core/providers/github'
 import { defineConfig } from 'auth-astro'
 

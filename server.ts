@@ -50,12 +50,15 @@ function AstroAuthHandler(prefix: string, options = authConfig) {
 		const res = await Auth(request, options)
 		if (['callback', 'signin', 'signout'].includes(action)) {
 			// Properly handle multiple Set-Cookie headers (they can't be concatenated in one)
-			res.headers.getSetCookie().forEach((cookie) => {
-				const { name, value, ...options } = parseString(cookie)
-				// Astro's typings are more explicit than @types/set-cookie-parser for sameSite
-				cookies.set(name, value, options as Parameters<(typeof cookies)['set']>[2])
-			})
-			res.headers.delete('Set-Cookie')
+			const getSetCookie = res.headers.getSetCookie()
+			if (getSetCookie.length > 0) {
+				getSetCookie.forEach((cookie) => {
+					const { name, value, ...options } = parseString(cookie)
+					// Astro's typings are more explicit than @types/set-cookie-parser for sameSite
+					cookies.set(name, value, options as Parameters<(typeof cookies)['set']>[2])
+				})
+				res.headers.delete('Set-Cookie')
+			}
 		}
 		return res
 	}

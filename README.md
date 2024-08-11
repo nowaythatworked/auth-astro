@@ -66,14 +66,48 @@ AUTH_TRUST_HOST=true
 #### Deploying to Vercel?
 Setting `AUTH_TRUST_HOST` is not needed, as we also check for an active Vercel environment.
 
-### Requirements
-- Node version `>= 17.4`
-- Astro config set to output mode `server`
-- [SSR](https://docs.astro.build/en/guides/server-side-rendering/) enabled in your Astro project
+### Using API Context and Runtime Environment in your Configuration
 
-Resources:
-- [Enabling SSR in Your Project](https://docs.astro.build/en/guides/server-side-rendering/#enabling-ssr-in-your-project)
-- [Adding an Adapter](https://docs.astro.build/en/guides/server-side-rendering/#adding-an-adapter)
+Some database providers like Cloudflare D1 provide bindings to your databases in the runtime
+environment, which isn't accessible statically, but is provided on each request. You can define
+your configuration as a function which accepts the APIContext (for API Routes) or the Astro 
+global value (for Astro pages/components).
+
+```ts title="auth.config.ts"
+// auth.config.ts
+import Patreon from "@auth/core/providers/patreon";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { defineConfig } from "auth-astro";
+import type { UserAuthConfig } from "auth-astro/src/config";
+import { drizzle } from "drizzle-orm/d1";
+
+export default {
+	config: (ctx) => {
+		const { env } = ctx.locals.runtime;
+		const db = env.DB;
+		return defineConfig({
+			secret: env.AUTH_SECRET,
+			trustHost: env.AUTH_TRUST_HOST === "true",
+			adapter: DrizzleAdapter(drizzle(db)),
+			providers: [
+				Patreon({
+					clientId: env.AUTH_PATREON_ID,
+					clientSecret: env.AUTH_PATREON_SECRET,
+				}),
+			],
+		});
+	},
+} satisfies UserAuthConfig;
+```
+
+### requirements
+- node version `>= 17.4`
+- astro config set to output mode `server`
+- [ssr](https://docs.astro.build/en/guides/server-side-rendering/) enabled in your astro project
+
+resources:
+- [enabling ssr in your project](https://docs.astro.build/en/guides/server-side-rendering/#enabling-ssr-in-your-project)
+- [adding an adapter](https://docs.astro.build/en/guides/server-side-rendering/#adding-an-adapter)
 
 # Usage
 

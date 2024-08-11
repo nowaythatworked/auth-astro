@@ -32,7 +32,7 @@ export default (config: AstroAuthConfig = {}): AstroIntegration => ({
 				injectRoute({
 					pattern: config.prefix + '/[...auth]',
 					entrypoint: entrypoint,
-					entryPoint: entrypoint
+					entryPoint: entrypoint,
 				})
 			}
 

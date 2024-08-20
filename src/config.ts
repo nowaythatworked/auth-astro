@@ -1,5 +1,7 @@
 import type { PluginOption } from 'vite'
 import type { AuthConfig } from '@auth/core/types'
+import type { APIContext, AstroGlobal } from 'astro'
+import type { ActionAPIContext } from 'astro/dist/actions/runtime/store'
 
 export const virtualConfigModule = (configFile: string = './auth.config'): PluginOption => {
 	const virtualModuleId = 'auth:config'
@@ -27,7 +29,7 @@ export interface AstroAuthConfig {
 	 */
 	prefix?: string
 	/**
-	 * Defineds wether or not you want the integration to handle the API routes
+	 * Defines whether or not you want the integration to handle the API routes
 	 * @default true
 	 */
 	injectEndpoints?: boolean
@@ -43,3 +45,9 @@ export const defineConfig = (config: FullAuthConfig) => {
 	config.basePath = config.prefix
 	return config
 }
+
+export type UserAuthConfig =
+	| {
+			config: (ctx: APIContext | AstroGlobal | ActionAPIContext) => FullAuthConfig | Promise<FullAuthConfig>
+	  }
+	| FullAuthConfig

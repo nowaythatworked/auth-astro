@@ -25,9 +25,11 @@
  */
 import { Auth } from '@auth/core'
 import type { AuthAction, Session } from '@auth/core/types'
-import type { APIContext } from 'astro'
+import type { APIContext, AstroGlobal } from 'astro'
 import { parseString } from 'set-cookie-parser'
 import authConfig from 'auth:config'
+import type { UserAuthConfig } from './src/config'
+import type { ActionAPIContext } from 'astro/dist/actions/runtime/store'
 
 const actions: AuthAction[] = [
 	'providers',
@@ -41,13 +43,15 @@ const actions: AuthAction[] = [
 ]
 
 function AstroAuthHandler(prefix: string, options = authConfig) {
-	return async ({ cookies, request }: APIContext) => {
+	return async (ctx: APIContext) => {
+		const { cookies, request } = ctx
 		const url = new URL(request.url)
 		const action = url.pathname.slice(prefix.length + 1).split('/')[0] as AuthAction
 
 		if (!actions.includes(action) || !url.pathname.startsWith(prefix + '/')) return
 
-		const res = await Auth(request, options)
+		const config = isUserConfigLazy(options) ? await options.config(ctx) : options
+		const res = await Auth(request, config)
 		if (['callback', 'signin', 'signout'].includes(action)) {
 			// Properly handle multiple Set-Cookie headers (they can't be concatenated in one)
 			const getSetCookie = res.headers.getSetCookie()
@@ -86,17 +90,23 @@ export function AstroAuth(options = authConfig) {
 	// @ts-ignore
 	const { AUTH_SECRET, AUTH_TRUST_HOST, VERCEL, NODE_ENV } = import.meta.env
 
-	options.secret ??= AUTH_SECRET
-	options.trustHost ??= !!(AUTH_TRUST_HOST ?? VERCEL ?? NODE_ENV !== 'production')
-
-	const { prefix = '/api/auth', ...authOptions } = options
-
-	const handler = AstroAuthHandler(prefix, authOptions)
 	return {
 		async GET(context: APIContext) {
+			const config = isUserConfigLazy(options) ? await options.config(context) : options
+			config.secret ??= AUTH_SECRET
+			config.trustHost ??= !!(AUTH_TRUST_HOST ?? VERCEL ?? NODE_ENV !== 'production')
+
+			const { prefix = '/api/auth', ...authOptions } = config
+			const handler = AstroAuthHandler(prefix, authOptions)
 			return await handler(context)
 		},
 		async POST(context: APIContext) {
+			const config = isUserConfigLazy(options) ? await options.config(context) : options
+			config.secret ??= AUTH_SECRET
+			config.trustHost ??= !!(AUTH_TRUST_HOST ?? VERCEL ?? NODE_ENV !== 'production')
+
+			const { prefix = '/api/auth', ...authOptions } = config
+			const handler = AstroAuthHandler(prefix, authOptions)
 			return await handler(context)
 		},
 	}
@@ -108,10 +118,14 @@ export function AstroAuth(options = authConfig) {
  * @returns The current session, or `null` if there is no session.
  */
 export async function getSession(req: Request, options = authConfig): Promise<Session | null> {
+	if (isUserConfigLazy(options)) {
+		throw new Error(
+			'User Auth Configuration is Lazy. Fetch the session using getSessionByContext().'
+		)
+	}
 	// @ts-ignore
 	options.secret ??= import.meta.env.AUTH_SECRET
 	options.trustHost ??= true
-
 	const url = new URL(`${options.prefix}/session`, req.url)
 	const response = await Auth(new Request(url, { headers: req.headers }), options)
 	const { status = 200 } = response
@@ -121,4 +135,21 @@ export async function getSession(req: Request, options = authConfig): Promise<Se
 	if (!data || !Object.keys(data).length) return null
 	if (status === 200) return data
 	throw new Error(data.message)
+}
+
+/**
+ * Fetches the current session when using a lazy auth config.
+ * @param ctx The Astro global object, or APIContext.
+ * @returns The current session, or `null` if there is no session.
+ */
+export async function getSessionByContext(
+	ctx: AstroGlobal | APIContext | ActionAPIContext,
+	options = authConfig
+): Promise<Session | null> {
+	const config = isUserConfigLazy(options) ? await options.config(ctx) : options
+	return await getSession(ctx.request, config)
+}
+
+export function isUserConfigLazy(config: UserAuthConfig) {
+	return 'config' in config
 }

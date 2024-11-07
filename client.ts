@@ -62,16 +62,25 @@ export async function signIn<P extends RedirectableProviderType | undefined = un
 	})
 
 	const data = await res.clone().json()
-	const error = new URL(data.url).searchParams.get('error')
-
-	if (redirect || !isSupportingReturn || !error) {
-		// TODO: Do not redirect for Credentials and Email providers by default in next major
-		window.location.href = data.url ?? callbackUrl
-		// If url contains a hash, the browser does not reload the page. We reload manually
-		if (data.url.includes('#')) window.location.reload()
-		return
+	const url = new URL(data.url)
+	// Append the callbackUrl to the return URL as a parameter
+	if (url.searchParams.has('redirect_uri')) {
+	  const redirectUri = url.searchParams.get('redirect_uri')
+	  const rUri = new URL(redirectUri as string)
+	  if (!rUri.searchParams.has('callbackUrl')) {
+		rUri.searchParams.set('callbackUrl', callbackUrl)
+		url.searchParams.set('redirect_uri', rUri.href)
+	  }
 	}
-
+	const error = url.searchParams.get('error')
+	if (redirect || !isSupportingReturn || !error) {
+	  // TODO: Do not redirect for Credentials and Email providers by default in next major
+	  window.location.href = url.href ?? callbackUrl
+	  // If url contains a hash, the browser does not reload the page. We reload manually
+	  if (url.href.includes('#')) window.location.reload()
+	  return
+	}
+  
 	return res
 }
 

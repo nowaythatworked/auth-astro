@@ -32,7 +32,8 @@ export default (config: AstroAuthConfig = {}): AstroIntegration => ({
 				injectRoute({
 					pattern: config.prefix + '/[...auth]',
 					entrypoint: entrypoint,
-					entryPoint: entrypoint
+					// @ts-expect-error to support older astro versions
+					entryPoint: entrypoint,
 				})
 			}
 

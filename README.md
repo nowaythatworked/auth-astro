@@ -173,7 +173,7 @@ import { Auth, SignIn, SignOut } from 'auth-astro/components';
 
 # State of Project
 
-We currently are waiting for the [PR](https://github.com/nextauthjs/next-auth/pull/6463) in the official [next-auth](https://github.com/nextauthjs/next-auth/) repository to be merged. Once this has happened, this package will be deprecated. 
+We currently are waiting for the [PR](https://github.com/nextauthjs/next-auth/pull/9856) in the official [next-auth](https://github.com/nextauthjs/next-auth/) repository to be merged. Once this has happened, this package will be deprecated. 
 
 # Contribution
 Waiting on the PR to be merged means, we can still add new features to the PR, so, if you miss anything feel free to open a PR or issue in this repo, and we will try to get it added to the official package.

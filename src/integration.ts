@@ -1,5 +1,6 @@
 import type { AstroIntegration } from 'astro'
 import { type AstroAuthConfig, virtualConfigModule } from './config'
+import { dirname, join } from 'node:path'
 
 export default (config: AstroAuthConfig = {}): AstroIntegration => ({
 	name: 'astro-auth',
@@ -11,11 +12,6 @@ export default (config: AstroAuthConfig = {}): AstroIntegration => ({
 			updateConfig,
 			logger,
 		}) => {
-			if (astroConfig.output === 'static')
-				throw new Error(
-					'auth-astro requires server-side rendering. Please set output to "server" & install an adapter. See https://docs.astro.build/en/guides/deploy/#adding-an-adapter-for-ssr'
-				)
-
 			updateConfig({
 				vite: {
 					plugins: [virtualConfigModule(config.configFile)],
@@ -26,14 +22,11 @@ export default (config: AstroAuthConfig = {}): AstroIntegration => ({
 			config.prefix ??= '/api/auth'
 
 			if (config.injectEndpoints !== false) {
-				const { dirname, join } = await import('node:path')
 				const currentDir = dirname(import.meta.url.replace('file://', ''))
-				const entrypoint = join(currentDir + '/api/[...auth].ts')
+				const entrypoint = join(`${currentDir}/api/[...auth].ts`)
 				injectRoute({
-					pattern: config.prefix + '/[...auth]',
-					entrypoint: entrypoint,
-					// @ts-expect-error to support older astro versions
-					entryPoint: entrypoint,
+					pattern: `${config.prefix}/[...auth]`,
+					entrypoint,
 				})
 			}
 

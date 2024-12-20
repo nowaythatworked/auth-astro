@@ -26,12 +26,12 @@
 		"@types/node": "^18.17.1",
 		"@types/set-cookie-parser": "^2.4.2",
 		"astro": "^5.0.0",
-		"next-auth": "^4.24.10",
 		"prettier": "^2.8.6",
 		"prettier-plugin-astro": "^0.8.0",
 		"typescript": "^5.6.2"
 	},
 	"dependencies": {
+		"next-auth": "^4.24.10",
 		"set-cookie-parser": "^2.5.1"
 	},
 	"keywords": [
